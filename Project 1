@@ -1,0 +1,54 @@
+For (const auto& club : clubs) {
+        file << club.name << "," << club.capacity << "," << club.male_count << "," << club.female_count << "\n";
+    }
+
+    file << "Sport Name,Capacity,Male Count,Female Count\n";
+    for (const auto& sport : sports) {
+        file << sport.name << "," << sport.capacity << "," << sport.male_count << "," << sport.female_count << "\n";
+    }
+
+    file.close();
+    std::cout << "Data saved successfully.\n";
+}
+
+int main() {
+    add_club("Journalism Club", 60);
+    add_club("Red Cross Society", 60);
+    add_club("AISEC", 60);
+    add_club("Business Club", 60);
+    add_club("Computer Science Club", 60);
+    add_sport("Rugby", 20);
+    add_sport("Athletics", 20);
+    add_sport("Swimming", 20);
+    add_sport("Soccer", 20);
+
+    add_student("John", "Doe", Gender::MALE, 18, 1);
+    add_student("Jane", "Doe", Gender::FEMALE, 18, 1);
+    add_student("Mike", "Smith", Gender::MALE, 18, 2);
+    add_student("Emma", "Johnson", Gender::FEMALE, 18, 2);
+    add_student("Tom", "Brown", Gender::MALE, 18, 3);
+    add_student("Lucy", "Davis", Gender::FEMALE, 18, 3);
+
+    allocate_activities(students[0]);
+    allocate_activities(students[1]);
+    allocate_activities(students[2]);
+    allocate_activities(students[3]);
+    allocate_activities(students[4]);
+
+    print_menu();
+    int choice;
+    std::cin >> choice;
+
+    while (choice != 7) {
+        switch (choice) {
+            case 1: {
+                std::string firstname, surname;
+                int age, bbit_group;
+                std::cout << "Enter firstname: ";
+                std::cin >> firstname;
+                std::cout << "Enter surname: ";
+                std::cin >> surname;
+                std::cout << "Enter age: ";
+                std::cin >> age;
+
+                // Clear the input buffer
