@@ -1,55 +1,55 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <limits> // Add this line for numeric_limits
-
-enum Gender { MALE, FEMALE };
-enum ActivityType { SPORT, CLUB };
-
-struct Club {
-    std::string name;
-    int capacity;
-    int male_count;
-    int female_count;
-};
-
-struct Sport {
-    std::string name;
-    int capacity;
-    int male_count;
-    int female_count;
-};
-
-struct Student {
-    std::string firstname;
-    std::string surname;
-    Gender gender;
-    int age;
-    int bbit_group;
-    std::vector<ActivityType> activities;
-};
-
-std::vector<Club> clubs;
-std::vector<Sport> sports;
-std::vector<Student> students;
-
-void add_student(const std::string& firstname, const std::string& surname, Gender gender, int age, int bbit_group) {
-    students.push_back({firstname, surname, gender, age, bbit_group, {}});
+void print_students(const std::vector<Student>& students) {
+    for (size_t i = 0; i < students.size(); ++i) {
+        std::cout << "Student " << i + 1 << ":\n"
+                  << "Firstname: " << students[i].firstname << "\n"
+                  << "Surname: " << students[i].surname << "\n"
+                  << "Gender: " << (students[i].gender == Gender::MALE ? "Male" : "Female") << "\n"
+                  << "Age: " << students[i].age << "\n"
+                  << "BBIT Group: " << students[i].bbit_group << "\n"
+                  << "Activities: ";
+        for (const auto& activity : students[i].activities) {
+            std::cout << (activity == ActivityType::CLUB ? "Club" : "Sport") << " ";
+        }
+        std::cout << "\n\n";
+    }
 }
 
-void add_club(const std::string& name, int capacity) {
-    clubs.push_back({name, capacity, 0, 0});
+void print_clubs(const std::vector<Club>& clubs) {
+    for (size_t i = 0; i < clubs.size(); ++i) {
+        std::cout << "Club " << i + 1 << ":\n"
+                  << "Name: " << clubs[i].name << "\n"
+                  << "Capacity: " << clubs[i].capacity << "\n"
+                  << "Male Count: " << clubs[i].male_count << "\n"
+                  << "Female Count: " << clubs[i].female_count << "\n\n";
+    }
 }
 
-void add_sport(const std::string& name, int capacity) {
-    sports.push_back({name, capacity, 0, 0});
+void print_sports(const std::vector<Sport>& sports) {
+    for (size_t i = 0; i < sports.size(); ++i) {
+        std::cout << "Sport " << i + 1 << ":\n"
+                  << "Name: " << sports[i].name << "\n"
+                  << "Capacity: " << sports[i].capacity << "\n"
+                  << "Male Count: " << sports[i].male_count << "\n"
+                  << "Female Count: " << sports[i].female_count << "\n\n";
+    }
 }
 
-bool is_valid_club_allocation(const Club& club) {
-    return club.male_count <= club.capacity / 2 && club.female_count <= club.capacity / 2;
-}
+void save_data(const std::vector<Student>& students, const std::vector<Club>& clubs, const std::vector<Sport>& sports) {
+    std::ofstream file("data.csv");
+    if (!file.is_open()) {
+        std::cerr << "Error: Unable to open file for writing.\n";
+        return;
+    }
 
-bool is_valid_sport_allocation(const Sport& sport) {
-    return sport.male_count <= sport.capacity * 3 / 4 && sport.female_count <= sport.capacity / 4;
-}
+    file << "Firstname,Surname,Gender,Age,BBIT Group,Activities\n";
+    for (const auto& student : students) {
+        file << student.firstname << "," << student.surname << ","
+             << (student.gender == Gender::MALE ? "Male" : "Female") << "," << student.age << ","
+             << student.bbit_group << ",";
+        for (const auto& activity : student.activities) {
+            file << (activity == ActivityType::CLUB ? "Club" : "Sport") << " ";
+        }
+        file << "\n";
+    }
+
+    file << "Club Name,Capacity,Male Count,Female Count\n"
