@@ -1,0 +1,55 @@
+std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Enter BBIT group: ";
+                std::cin >> bbit_group;
+                std::cout << "Enter gender (MALE/FEMALE): ";
+                char gender_char;
+                std::cin >> gender_char;
+               Gender gender = (gender_char == 'M' ? Gender::MALE : Gender::FEMALE);
+                add_student(firstname, surname, gender, age, bbit_group);
+                break;
+            }
+
+
+            case 2: {
+                print_students(students);
+                break;
+            }
+            case 3: {
+                print_clubs(clubs);
+                break;
+            }
+            case 4: {
+                print_sports(sports);
+                break;
+            }
+            case 5: {
+                for (size_t i = 0; i < students.size(); ++i) {
+                    std::cout << "Student " << i + 1 << ":\n"
+                              << "Firstname: " << students[i].firstname << "\n"
+                              << "Surname: " << students[i].surname << "\n"
+                              << "Gender: " << (students[i].gender == Gender::MALE ? "Male" : "Female") << "\n"
+                              << "Age: " << students[i].age << "\n"
+                              << "BBIT Group: " << students[i].bbit_group << "\n"
+                              << "Activities: ";
+                    for (const auto& activity : students[i].activities) {
+                        std::cout << (activity == ActivityType::CLUB ? "Club" : "Sport") << " ";
+                    }
+                    std::cout << "\n\n";
+                }
+                break;
+            }
+            case 6: {
+                save_data(students, clubs, sports);
+                break;
+            }
+            default: {
+                std::cout << "Invalid choice. Please try again.\n";
+                break;
+            }
+        }
+
+        std::cin >> choice;
+    }
+
+    return 0;
+}
